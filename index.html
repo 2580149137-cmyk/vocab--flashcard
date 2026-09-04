@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>英语单词（高频版）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, "PingFang SC", "Helvetica Neue", system-ui, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 460px;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            padding: 24px 20px 28px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s, box-shadow 0.3s;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+        /* ===== 水印 ===== */
+        .watermark {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            font-family: "STKaiti", "KaiTi", "楷体", serif;
+            font-size: 140px;
+            font-weight: 900;
+            color: #c0c0c0;
+            opacity: 0.15;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+            line-height: 1;
+            transform: rotate(2deg);
+            text-shadow: 3px 3px 16px rgba(0,0,0,0.06);
+            transition: color 0.3s, opacity 0.3s;
+        }
+        .footer-saying {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 10px;
+            color: #999;
+            letter-spacing: 3px;
+            font-family: "STKaiti", "KaiTi", "楷体", serif;
+            opacity: 0.6;
+            user-select: none;
+            transition: color 0.3s, opacity 0.3s;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            z-index: 1;
+        }
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .mode-switch {
+            display: flex;
+            gap: 4px;
+            background: #f0f0f0;
+            padding: 3px;
+            border-radius: 20px;
+        }
+        .mode-switch button {
+            border: none;
+            background: transparent;
+            padding: 4px 14px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .mode-switch button.active {
+            background: #222;
+            color: #fff;
+        }
+        .progress-text {
+            font-size: 13px;
+            color: #888;
+            font-weight: 400;
+            background: #f0f0f0;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #555;
+            background: #f8f8f8;
+            padding: 6px 0;
+            border-radius: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .stats .stat-btn {
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 400;
+            color: #222;
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 12px;
+            transition: background 0.15s;
+        }
+        .stats .stat-btn:active {
+            background: #e0e0e0;
+        }
+        .stats .stat-btn .num {
+            font-weight: 600;
+            color: #000;
+        }
+        .stats .stat-btn.active-stat {
+            background: #ddd;
+        }
+        .card-wrapper {
+            flex: 1;
+            perspective: 1200px;
+            margin: 4px 0 12px;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            width: 100%;
+            min-height: 240px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+            padding: 24px 20px;
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s;
+            transform-style: preserve-3d;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid #eee;
+        }
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 24px 20px;
+            height: 100%;
+            border-radius: 24px;
+            background: #fff;
+            border: 1px solid #eee;
+        }
+        .card-front .word-list {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .card-front .word-list span {
+            display: inline-block;
+            margin: 0 4px;
+        }
+        .card-front .hint {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #bbb;
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+        .card-back .item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+        .card-back .item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .card-back .word {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .card-back .phonetic {
+            font-size: 14px;
+            color: #888;
+            font-weight: 400;
+            margin-left: 6px;
+        }
+        .card-back .meaning {
+            font-size: 15px;
+            color: #333;
+            margin-top: 2px;
+            font-weight: 400;
+        }
+        .card-back .analysis {
+            margin-top: 14px;
+            padding: 12px 14px;
+            background: #f7f7f7;
+            border-radius: 12px;
+            border-left: 3px solid #888;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.6;
+        }
+        .card-back .analysis strong {
+            font-weight: 600;
+            color: #000;
+        }
+        .actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 6px;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .actions button {
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            color: #222;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: none;
+            flex: 0 1 auto;
+            min-width: 44px;
+            letter-spacing: 0.5px;
+        }
+        .actions button:active {
+            transform: scale(0.96);
+            background: #e0e0e0;
+        }
+        .actions .btn-primary {
+            background: #222;
+            color: #fff;
+            border-color: #222;
+        }
+        .actions .btn-primary:active {
+            background: #444;
+        }
+        .actions .btn-outline {
+            background: transparent;
+            border-color: #ccc;
+            color: #555;
+        }
+        .actions .btn-fav {
+            background: transparent;
+            border-color: #ccc;
+            color: #222;
+            font-size: 16px;
+            padding: 4px 14px;
+        }
+        .actions .btn-fav.active-fav {
+            background: #222;
+            color: #fff;
+            border-color: #222;
+        }
+        /* ===== 黑白切换按钮（圆形，与翻转底色同步） ===== */
+        .btn-dark-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #222;
+            background: #222;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .btn-dark-toggle:active {
+            transform: scale(0.96);
+        }
+        .game-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .game-area.active {
+            display: flex;
+        }
+        .game-area .game-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+            text-align: center;
+        }
+        .game-area .drop-zone {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            min-height: 56px;
+            padding: 12px;
+            background: #fff;
+            border-radius: 16px;
+            border: 1px dashed #bbb;
+            transition: 0.2s;
+        }
+        .game-area .token {
+            background: #222;
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: grab;
+            user-select: none;
+            transition: 0.15s;
+        }
+        .game-area .token:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+        .game-area .token.placed {
+            background: #555;
+            cursor: default;
+        }
+        .game-area .token.wrong {
+            background: #000;
+            animation: shake 0.3s;
+            border: 1px solid #999;
+        }
+        .game-area .game-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .game-area .game-actions button {
+            padding: 8px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 13px;
+            background: #f5f5f5;
+            color: #222;
+            cursor: pointer;
+        }
+        .game-area .game-actions .btn-reset {
+            background: transparent;
+            border-color: #ccc;
+        }
+        @keyframes shake {
+            0%,100%{ transform: translateX(0); }
+            25%{ transform: translateX(-6px); }
+            75%{ transform: translateX(6px); }
+        }
+        /* ===== 暗色/黑白模式 ===== */
+        body.dark-mode {
+            background: #1a1a1a;
+        }
+        body.dark-mode .app-container {
+            background: #1e1e1e;
+            border-color: #333;
+            box-shadow: none;
+        }
+        body.dark-mode .header h1 { color: #ddd; }
+        body.dark-mode .header { border-bottom-color: #333; }
+        body.dark-mode .card { background: #252525; border-color: #333; }
+        body.dark-mode .card-back { background: #252525; border-color: #333; }
+        body.dark-mode .card-front .word-list { color: #ddd; }
+        body.dark-mode .card-front .hint { color: #666; }
+        body.dark-mode .card-back .word { color: #eee; }
+        body.dark-mode .card-back .meaning { color: #bbb; }
+        body.dark-mode .card-back .analysis { background: #1e1e1e; color: #ccc; border-left-color: #888; }
+        body.dark-mode .card-back .analysis strong { color: #fff; }
+        body.dark-mode .stats { background: #252525; color: #999; }
+        body.dark-mode .stats .stat-btn { color: #ccc; }
+        body.dark-mode .stats .stat-btn .num { color: #fff; }
+        body.dark-mode .stats .stat-btn:active { background: #3a3a3a; }
+        body.dark-mode .mode-switch { background: #2a2a2a; }
+        body.dark-mode .mode-switch button { color: #888; }
+        body.dark-mode .mode-switch button.active { background: #eee; color: #222; }
+        body.dark-mode .actions button { background: #2a2a2a; color: #ccc; border-color: #444; }
+        body.dark-mode .actions .btn-primary { background: #eee; color: #222; border-color: #eee; }
+        body.dark-mode .actions .btn-outline { background: transparent; border-color: #444; color: #aaa; }
+        body.dark-mode .actions .btn-fav {
+            background: transparent;
+            border-color: #444;
+            color: #fff !important;
+        }
+        body.dark-mode .actions .btn-fav.active-fav {
+            background: #eee;
+            color: #222 !important;
+            border-color: #eee;
+        }
+        /* 暗色下黑白切换按钮：白底黑字（与翻转按钮底色同步） */
+        body.dark-mode .btn-dark-toggle {
+            background: #eee;
+            color: #222;
+            border-color: #eee;
+        }
+        body.dark-mode .game-area { background: #1e1e1e; border-color: #333; }
+        body.dark-mode .game-area .game-title { color: #ccc; }
+        body.dark-mode .game-area .drop-zone { background: #252525; border-color: #444; }
+        body.dark-mode .game-area .token { background: #eee; color: #222; }
+        body.dark-mode .game-area .token.placed { background: #888; color: #fff; }
+        body.dark-mode .game-area .game-actions button { background: #2a2a2a; color: #ccc; border-color: #444; }
+        body.dark-mode .progress-text { background: #2a2a2a; color: #aaa; }
+        body.dark-mode .watermark { color: #ffffff; opacity: 0.12; }
+        body.dark-mode .footer-saying { color: #888; opacity: 0.5; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: #f0f0f0; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container" id="app">
+    <div class="watermark">笃</div>
+    <div class="header">
+        <h1>形近词 · 高频100组</h1>
+    </div>
+    <div class="toolbar">
+        <div class="mode-switch" id="modeSwitch">
+            <button class="active" data-mode="flip">翻转</button>
+            <button data-mode="browse">浏览</button>
+        </div>
+        <span class="progress-text" id="progressText">1 / 100</span>
+    </div>
+    <div class="stats" id="statsBar">
+        <button class="stat-btn" data-filter="learned">已学 <span class="num" id="learnedCount">0</span></button>
+        <button class="stat-btn" data-filter="fav">★ 收藏 <span class="num" id="favCount">0</span></button>
+        <button class="stat-btn" data-filter="wrong">错题 <span class="num" id="wrongCount">0</span></button>
+        <button class="stat-btn" data-filter="all" id="showAllBtn" style="display:none;">全部</button>
+    </div>
+    <div class="card-wrapper">
+        <div class="card" id="card">
+            <div class="card-front" id="cardFront">
+                <div class="word-list" id="wordList"></div>
+                <div class="hint">点击翻转</div>
+            </div>
+            <div class="card-back" id="cardBack">
+                <div id="backContent"></div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="btn-outline" id="prevBtn">◀</button>
+        <button class="btn-primary" id="flipBtn">翻转</button>
+        <button class="btn-outline" id="nextBtn">▶</button>
+    </div>
+    <div class="actions">
+        <button class="btn-fav" id="favBtn">☆</button>
+        <button class="btn-outline" id="wrongBtn">错题</button>
+    </div>
+    <div class="actions">
+        <button class="btn-outline" id="gameUnlockBtn">游戏</button>
+        <button class="btn-outline" id="resetProgressBtn">重置进度</button>
+        <button class="btn-dark-toggle" id="styleToggle">☯</button>
+    </div>
+    <div class="footer-saying">事以密成 · 一鸣惊人</div>
+    <div class="game-area" id="gameArea">
+        <div class="game-title">打散排序 · 拖拽复原</div>
+        <div class="drop-zone" id="dropZone"></div>
+        <div class="game-actions">
+            <button class="btn-reset" id="gameReset">重排</button>
+            <button id="gameCheck">检查</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// 数据区：100组形近词（完整版）
+// ============================================================
+const CARD_DATA = [
+  { id:1, group: ["adapt","adopt","adept"], meanings: ["/əˈdæpt/ 适应；改编","/əˈdɒpt/ 采纳；收养","/əˈdept/ 熟练的，内行的"], analysis: "拼写差异在第二个字母a/o/e；完形高频，adapt强调“调整以适应”，adopt强调“采纳/收养”，adept为形容词“熟练的”。" },
+  { id:2, group: ["affect","effect"], meanings: ["/əˈfekt/ 影响；假装","/ɪˈfekt/ 效果，结果；引起，实现"], analysis: "拼写差异在开头字母a/e；完形高频，affect为动词（影响），effect多为名词（效果），作动词时意为“引起”。" },
+  { id:3, group: ["rise","raise","arise","arouse"], meanings: ["/raɪz/ 上升；起床；增长","/reɪz/ 举起；提高；养育","/əˈraɪz/ 出现；产生；起身","/əˈraʊz/ 激起；唤醒"], analysis: "拼写差异在首字母和结尾；完形高频，rise不及物，raise及物，arise指“出现”，arouse指“激起”。" },
+  { id:4, group: ["considerable","considerate"], meanings: ["/kənˈsɪdərəbl/ 相当大的；重要的","/kənˈsɪdərət/ 体贴的；考虑周到的"], analysis: "拼写差异在结尾-able/-ate；完形高频，considerable指“数量/程度大”，considerate指“为人体贴”。" },
+  { id:5, group: ["economic","economical"], meanings: ["/ˌiːkəˈnɒmɪk/ 经济的；经济学的","/ˌiːkəˈnɒmɪkl/ 节约的；经济的"], analysis: "拼写差异在结尾-ic/-ical；阅读高频，economic指“与经济有关的”，economical指“节省的”。" },
+  { id:6, group: ["principal","principle"], meanings: ["/ˈprɪnsəpl/ 主要的；校长；本金","/ˈprɪnsəpl/ 原则；原理；准则"], analysis: "拼写差异在结尾-al/-le（发音相同）；完形高频，principal为形容词或名词（校长/本金），principle为名词（原则）。" },
+  { id:7, group: ["confirm","conform"], meanings: ["/kənˈfɜːm/ 确认；证实；批准","/kənˈfɔːm/ 遵守；符合；一致"], analysis: "拼写差异在第二音节元音ir/or；完形高频，confirm指“证实”，conform指“遵从/符合”。" },
+  { id:8, group: ["intense","intensive"], meanings: ["/ɪnˈtens/ 强烈的；紧张的；激烈的","/ɪnˈtensɪv/ 密集的；加强的；集约的"], analysis: "拼写差异在结尾-se/-sive；阅读高频，intense强调程度深，intensive强调密度/强度集中。" },
+  { id:9, group: ["invent","invest"], meanings: ["/ɪnˈvent/ 发明；捏造","/ɪnˈvest/ 投资；投入"], analysis: "拼写差异在第三个字母e/s；完形高频，invent指“创造新事物”，invest指“投入资金/精力”。" },
+  { id:10, group: ["extend","extent"], meanings: ["/ɪkˈstend/ 延伸；扩展；给予","/ɪkˈstent/ 程度；范围"], analysis: "拼写差异在结尾-d/-t；阅读高频，extend为动词（延伸），extent为名词（程度）。" },
+  { id:11, group: ["emerge","immerge"], meanings: ["/ɪˈmɜːdʒ/ 出现；浮现","/ɪˈmɜːdʒ/ 浸入；没入"], analysis: "拼写差异在开头字母e/i；阅读高频，emerge指“出来/出现”，immerge指“进去/浸入”。" },
+  { id:12, group: ["exhaust","exhibit"], meanings: ["/ɪɡˈzɔːst/ 耗尽；使精疲力尽；排气","/ɪɡˈzɪbɪt/ 展览；展示；表现"], analysis: "拼写差异在第二音节-au/-ib；阅读高频，exhaust指“耗尽资源/精力”，exhibit指“展出/显示”。" },
+  { id:13, group: ["exploit","explore"], meanings: ["/ɪkˈsplɔɪt/ 利用；开发；剥削","/ɪkˈsplɔː/ 探索；探测；考察"], analysis: "拼写差异在结尾-it/-ore；阅读高频，exploit指“开发利用/剥削”，explore指“探索未知”。" },
+  { id:14, group: ["supplement","suppress"], meanings: ["/ˈsʌplɪmənt/ 补充；增补","/səˈpres/ 镇压；抑制；阻止"], analysis: "拼写差异在第三音节-le/-re；阅读高频，supplement指“增加补充”，suppress指“压制/制止”。" },
+  { id:15, group: ["assignment","assessment"], meanings: ["/əˈsaɪnmənt/ 任务；分配；作业","/əˈsesmənt/ 评估；评价"], analysis: "拼写差异在第二音节-gn/-ss；阅读高频，assignment指“分配的任务”，assessment指“对价值的评价”。" },
+  { id:16, group: ["perceive","conceive","deceive"], meanings: ["/pəˈsiːv/ 感知；察觉；理解","/kənˈsiːv/ 设想；怀有（想法）；怀孕","/dɪˈsiːv/ 欺骗；蒙蔽"], analysis: "拼写差异在前缀per-/con-/de-；完形高频，词根相同但前缀不同导致含义差异。" },
+  { id:17, group: ["perspective","prospective"], meanings: ["/pəˈspektɪv/ 视角；观点；透视图","/prəˈspektɪv/ 预期的；未来的"], analysis: "拼写差异在第二音节er/or；阅读高频，perspective指“看待问题的角度”，prospective指“将来可能发生的”。" },
+  { id:18, group: ["respect","inspect","suspect","prospect"], meanings: ["/rɪˈspekt/ 尊重；方面","/ɪnˈspekt/ 检查；审视","/səˈspekt/ 怀疑；嫌疑人","/ˈprɒspekt/ 前景；展望"], analysis: "拼写差异在前缀re-/in-/su-/pro-；阅读高频，同为词根spect（看），前缀不同含义各异。" },
+  { id:19, group: ["complement","compliment"], meanings: ["/ˈkɒmplɪmənt/ 补充；补足语","/ˈkɒmplɪmənt/ 赞美；恭维"], analysis: "拼写差异在第三字母e/i；完形高频，complement指“使完整”，compliment指“称赞”。" },
+  { id:20, group: ["council","counsel"], meanings: ["/ˈkaʊnsl/ 理事会；委员会","/ˈkaʊnsl/ 劝告；建议；法律顾问"], analysis: "拼写差异在第三字母n/s；完形高频，council为机构名词，counsel为建议或律师。" },
+  { id:21, group: ["contact","contract","contrast"], meanings: ["/ˈkɒntækt/ 接触；联系","/ˈkɒntrækt/ 合同；收缩","/ˈkɒntrɑːst/ 对比；反差"], analysis: "拼写差异在第三-五字母-act/-act/-ast；阅读高频，三词形近但含义差异大。" },
+  { id:22, group: ["expand","expend"], meanings: ["/ɪkˈspænd/ 扩大；扩展","/ɪkˈspend/ 花费；消耗"], analysis: "拼写差异在第二音节-an/-en；阅读高频，expand指“体积/范围变大”，expend指“花费金钱/精力”。" },
+  { id:23, group: ["efficient","effective","efficacious"], meanings: ["/ɪˈfɪʃnt/ 高效的；有效率的","/ɪˈfektɪv/ 有效的；生效的","/ˌefɪˈkeɪʃəs/ 灵验的；有效的"], analysis: "拼写差异在第二音节-fi/-fe/-fi；完形高频，efficient指“效率高”，effective指“效果好”。" },
+  { id:24, group: ["ensure","insure","assure"], meanings: ["/ɪnˈʃʊə/ 确保；保证","/ɪnˈʃʊə/ 给…保险；确保","/əˈʃʊə/ 向…保证；使确信"], analysis: "拼写差异在开头en-/in-/as-；完形高频，ensure确保某事发生，insure保险业务，assure向人承诺。" },
+  { id:25, group: ["immigrate","emigrate","migrate"], meanings: ["/ˈɪmɪɡreɪt/ 移居入境","/ˈemɪɡreɪt/ 移居出境","/maɪˈɡreɪt/ 迁移；迁徙"], analysis: "拼写差异在开头im-/e-/m-；阅读高频，immigrate移入，emigrate移出，migrate一般迁移。" },
+  { id:26, group: ["statue","status","statute"], meanings: ["/ˈstætʃuː/ 雕像；塑像","/ˈsteɪtəs/ 地位；状态","/ˈstætʃuːt/ 法令；法规"], analysis: "拼写差异在结尾-ue/-us/-ute；阅读高频，三词拼写极近，含义完全不同。" },
+  { id:27, group: ["incredible","incredulous"], meanings: ["/ɪnˈkredəbl/ 难以置信的；极好的","/ɪnˈkredjələs/ 怀疑的；不轻信的"], analysis: "拼写差异在结尾-ible/-ulous；阅读高频，incredible指“事情难以置信”，incredulous指“人表示怀疑”。" },
+  { id:28, group: ["industrious","industrial"], meanings: ["/ɪnˈdʌstriəs/ 勤奋的；勤劳的","/ɪnˈdʌstriəl/ 工业的；产业的"], analysis: "拼写差异在结尾-ious/-ial；阅读高频，industrious形容人勤奋，industrial形容工业。" },
+  { id:29, group: ["historic","historical"], meanings: ["/hɪˈstɒrɪk/ 历史上著名的；有历史意义的","/hɪˈstɒrɪkl/ 历史的；史学的"], analysis: "拼写差异在结尾-ic/-ical；阅读高频，historic指“有重大历史意义的”，historical指“与历史有关的”。" },
+  { id:30, group: ["worth","worthy","worthwhile"], meanings: ["/wɜːθ/ 值得的；价值","/ˈwɜːði/ 值得的；配得上的","/ˌwɜːθˈwaɪl/ 值得做的；有价值的"], analysis: "拼写差异在词尾和词长；完形高频，worth介词/名词，worthy形容词+of，worthwhile形容词。" },
+  { id:31, group: ["sensitive","sensible"], meanings: ["/ˈsensətɪv/ 敏感的；灵敏的","/ˈsensəbl/ 明智的；合理的"], analysis: "拼写差异在结尾-tive/-ble；完形高频，sensitive指“易受影响的”，sensible指“有判断力的”。" },
+  { id:32, group: ["tolerant","tolerable"], meanings: ["/ˈtɒlərənt/ 容忍的；宽容的","/ˈtɒlərəbl/ 可容忍的；可忍受的"], analysis: "拼写差异在结尾-ant/-able；阅读高频，tolerant指“人宽容”，tolerable指“事物可忍受”。" },
+  { id:33, group: ["continual","continuous"], meanings: ["/kənˈtɪnjuəl/ 连续的；频繁的","/kənˈtɪnjuəs/ 连续不断的"], analysis: "拼写差异在结尾-al/-ous；完形高频，continual指“有间断的反复”，continuous指“无间断的持续”。" },
+  { id:34, group: ["conscious","conscientious"], meanings: ["/ˈkɒnʃəs/ 有意识的；自觉的","/ˌkɒnʃɪˈenʃəs/ 认真的；尽责的"], analysis: "拼写差异在词长和-cien-；阅读高频，conscious指“意识到的”，conscientious指“勤勉尽责的”。" },
+  { id:35, group: ["prescribe","proscribe"], meanings: ["/prɪˈskraɪb/ 开（药）；规定","/prəˈskraɪb/ 禁止；排斥"], analysis: "拼写差异在第二音节e/o；阅读高频，prescribe指“建议/规定”，proscribe指“禁止”。" },
+  { id:36, group: ["subscribe","inscribe","describe"], meanings: ["/səbˈskraɪb/ 订阅；同意；捐助","/ɪnˈskraɪb/ 铭刻；题写","/dɪˈskraɪb/ 描述；描写"], analysis: "拼写差异在前缀sub-/in-/de-；阅读高频，同为scribe（写）词根，前缀不同含义不同。" },
+  { id:37, group: ["transmit","emit","submit","commit"], meanings: ["/trænzˈmɪt/ 传输；传播；传送","/ɪˈmɪt/ 发出；散发","/səbˈmɪt/ 提交；屈服","/kəˈmɪt/ 犯（罪）；承诺"], analysis: "拼写差异在前缀trans-/e-/sub-/com-；完形高频，同为mit（送）词根。" },
+  { id:38, group: ["remit","permit","admit"], meanings: ["/rɪˈmɪt/ 免除；汇款；提交","/pəˈmɪt/ 允许；许可","/ədˈmɪt/ 承认；准许进入"], analysis: "拼写差异在前缀re-/per-/ad-；阅读高频，同为mit词根，前缀不同含义各异。" },
+  { id:39, group: ["deprive","derive","strive","thrive"], meanings: ["/dɪˈpraɪv/ 剥夺；使丧失","/dɪˈraɪv/ 源于；获得","/straɪv/ 努力；奋斗","/θraɪv/ 繁荣；茁壮成长"], analysis: "拼写差异在开头de-/de-/str-/thr-；阅读高频，四词拼写相近但含义差异大。" },
+  { id:40, group: ["revive","survive"], meanings: ["/rɪˈvaɪv/ 复兴；恢复","/səˈvaɪv/ 幸存；存活"], analysis: "拼写差异在前缀re-/sur-；阅读高频，revive指“恢复活力”，survive指“活下来”。" },
+  { id:41, group: ["prevail","reveal"], meanings: ["/prɪˈveɪl/ 盛行；占优势","/rɪˈviːl/ 揭示；显示"], analysis: "拼写差异在第二音节-ai/-ea；阅读高频，prevail指“普遍存在/获胜”，reveal指“揭露”。" },
+  { id:42, group: ["appeal","appear"], meanings: ["/əˈpiːl/ 呼吁；吸引；上诉","/əˈpɪə/ 出现；显得"], analysis: "拼写差异在第二音节-ea/-ea但发音不同；阅读高频，appeal指“请求/吸引力”，appear指“呈现”。" },
+  { id:43, group: ["applaud","applause"], meanings: ["/əˈplɔːd/ 鼓掌；称赞","/əˈplɔːz/ 掌声；喝彩"], analysis: "拼写差异在结尾-d/-se；阅读高频，applaud为动词，applause为名词。" },
+  { id:44, group: ["collaborate","corroborate"], meanings: ["/kəˈlæbəreɪt/ 合作；协作","/kəˈrɒbəreɪt/ 证实；支持"], analysis: "拼写差异在第二音节-la/-ro；阅读高频，collaborate指“与人合作”，corroborate指“提供证据支持”。" },
+  { id:45, group: ["competitive","competent"], meanings: ["/kəmˈpetətɪv/ 竞争的；有竞争力的","/ˈkɒmpɪtənt/ 有能力的；胜任的"], analysis: "拼写差异在结尾-tive/-tent；完形高频，competitive指“竞争性的”，competent指“有能力的”。" },
+  { id:46, group: ["compel","impel","repel"], meanings: ["/kəmˈpel/ 强迫；迫使","/ɪmˈpel/ 推动；驱使","/rɪˈpel/ 击退；排斥"], analysis: "拼写差异在前缀com-/im-/re-；阅读高频，同为pel（推）词根，前缀不同含义不同。" },
+  { id:47, group: ["comprise","compromise"], meanings: ["/kəmˈpraɪz/ 包括；由…组成","/ˈkɒmprəmaɪz/ 妥协；折中"], analysis: "拼写差异在词长和结尾-se/-ise；阅读高频，comprise指“包含”，compromise指“让步”。" },
+  { id:48, group: ["concentrate","conception"], meanings: ["/ˈkɒnsntreɪt/ 集中；专注","/kənˈsepʃn/ 概念；观念；怀孕"], analysis: "拼写差异在第二音节-cen/-cep；阅读高频，concentrate指“注意力集中”，conception指“想法/概念”。" },
+  { id:49, group: ["confine","refine"], meanings: ["/kənˈfaɪn/ 限制；禁闭","/rɪˈfaɪn/ 精炼；完善"], analysis: "拼写差异在前缀con-/re-；阅读高频，confine指“限定范围”，refine指“提纯/改进”。" },
+  { id:50, group: ["consume","presume","resume"], meanings: ["/kənˈsjuːm/ 消耗；消费","/prɪˈzjuːm/ 假定；推测","/rɪˈzjuːm/ 恢复；重新开始；简历"], analysis: "拼写差异在前缀con-/pre-/re-；阅读高频，同为sume（拿）词根，前缀不同含义不同。" },
+  { id:51, group: ["contemporary","temporary"], meanings: ["/kənˈtemprəri/ 当代的；同时代的","/ˈtemprəri/ 暂时的；临时的"], analysis: "拼写差异在开头con-的有无；阅读高频，contemporary指“当代的”，temporary指“短暂的”。" },
+  { id:52, group: ["distinguish","extinguish"], meanings: ["/dɪˈstɪŋɡwɪʃ/ 区分；辨别","/ɪkˈstɪŋɡwɪʃ/ 熄灭；消灭"], analysis: "拼写差异在开头di-/ex-；完形高频，distinguish指“识别差异”，extinguish指“灭火/消除”。" },
+  { id:53, group: ["diverse","divert"], meanings: ["/daɪˈvɜːs/ 多样的；不同的","/daɪˈvɜːt/ 转移；使转向"], analysis: "拼写差异在结尾-se/-rt；阅读高频，diverse指“种类多”，divert指“改变方向”。" },
+  { id:54, group: ["domestic","dominant"], meanings: ["/dəˈmestɪk/ 国内的；家庭的","/ˈdɒmɪnənt/ 主导的；占优势的"], analysis: "拼写差异在第二音节-mes/-min；阅读高频，domestic指“国内的/家用的”，dominant指“支配的”。" },
+  { id:55, group: ["evaluate","evolve"], meanings: ["/ɪˈvæljueɪt/ 评估；评价","/ɪˈvɒlv/ 进化；发展"], analysis: "拼写差异在第三音节-u/-o；阅读高频，evaluate指“判断价值”，evolve指“逐步发展”。" },
+  { id:56, group: ["exceed","proceed","succeed"], meanings: ["/ɪkˈsiːd/ 超过；超越","/prəˈsiːd/ 继续进行；前进","/səkˈsiːd/ 成功；继承"], analysis: "拼写差异在前缀ex-/pro-/suc-；阅读高频，同为ceed（走）词根，前缀不同含义不同。" },
+  { id:57, group: ["exclude","include","conclude","preclude"], meanings: ["/ɪkˈskluːd/ 排除；排斥","/ɪnˈkluːd/ 包括；包含","/kənˈkluːd/ 结束；下结论","/prɪˈkluːd/ 阻止；排除"], analysis: "拼写差异在前缀ex-/in-/con-/pre-；完形高频，同为clude（关闭）词根。" },
+  { id:58, group: ["executive","execute"], meanings: ["/ɪɡˈzekjətɪv/ 执行的；行政的；高管","/ˈeksɪkjuːt/ 执行；处决"], analysis: "拼写差异在结尾-tive/-te；阅读高频，executive为形容词或名词，execute为动词。" },
+  { id:59, group: ["existence","resistance"], meanings: ["/ɪɡˈzɪstəns/ 存在；生存","/rɪˈzɪstəns/ 抵抗；阻力"], analysis: "拼写差异在开头ex-/res-；阅读高频，existence指“存在”，resistance指“反对/抗拒”。" },
+  { id:60, group: ["expand","expend","expel"], meanings: ["/ɪkˈspænd/ 扩大；扩展","/ɪkˈspend/ 花费；消耗","/ɪkˈspel/ 开除；驱逐"], analysis: "拼写差异在第三音节-and/-end/-el；阅读高频，expand扩大，expend花费，expel驱逐。" },
+  { id:61, group: ["explosion","exploration"], meanings: ["/ɪkˈspləʊʒn/ 爆炸；激增","/ˌekspləˈreɪʃn/ 探索；勘探"], analysis: "拼写差异在第三音节-lo/-plo；阅读高频，explosion指“爆破/剧增”，exploration指“探测研究”。" },
+  { id:62, group: ["extensive","intensive"], meanings: ["/ɪkˈstensɪv/ 广泛的；广阔的","/ɪnˈtensɪv/ 密集的；加强的"], analysis: "拼写差异在开头ex-/in-；阅读高频，extensive强调“范围广”，intensive强调“程度深”。" },
+  { id:63, group: ["flexible","reflex"], meanings: ["/ˈfleksəbl/ 灵活的；易弯曲的","/ˈriːfleks/ 反射；反应"], analysis: "拼写差异在词长和结尾-ible/-ex；阅读高频，flexible指“可变的”，reflex指“本能反应”。" },
+  { id:64, group: ["fragment","fragile"], meanings: ["/ˈfræɡmənt/ 碎片；片段","/ˈfrædʒaɪl/ 脆弱的；易碎的"], analysis: "拼写差异在结尾-ment/-ile；阅读高频，fragment为名词“碎片”，fragile为形容词“易碎”。" },
+  { id:65, group: ["genuine","genius"], meanings: ["/ˈdʒenjuɪn/ 真正的；真诚的","/ˈdʒiːniəs/ 天才；天赋"], analysis: "拼写差异在结尾-ine/-ius；阅读高频，genuine指“真实的”，genius指“天才”。" },
+  { id:66, group: ["imagination","imaginative","imaginary"], meanings: ["/ɪˌmædʒɪˈneɪʃn/ 想象；想象力","/ɪˈmædʒɪnətɪv/ 富有想象力的","/ɪˈmædʒɪnəri/ 虚构的；想象的"], analysis: "拼写差异在结尾-tion/-tive/-ary；阅读高频，imagination名词，imaginative形容人，imaginary形容事物。" },
+  { id:67, group: ["incident","accident"], meanings: ["/ˈɪnsɪdənt/ 事件；事故","/ˈæksɪdənt/ 意外事故"], analysis: "拼写差异在开头in-/ac-；阅读高频，incident中性“事件”，accident负面“事故”。" },
+  { id:68, group: ["incline","decline","recline"], meanings: ["/ɪnˈklaɪn/ 倾向；斜坡","/dɪˈklaɪn/ 下降；衰退；谢绝","/rɪˈklaɪn/ 斜倚；躺卧"], analysis: "拼写差异在前缀in-/de-/re-；阅读高频，同为cline（倾斜）词根，前缀不同含义不同。" },
+  { id:69, group: ["indicate","dedicate","medicate"], meanings: ["/ˈɪndɪkeɪt/ 表明；指示","/ˈdedɪkeɪt/ 致力于；奉献","/ˈmedɪkeɪt/ 用药治疗"], analysis: "拼写差异在前缀in-/de-/med-；阅读高频，indicate指“显示”，dedicate指“投入”。" },
+  { id:70, group: ["inevitable","unavoidable"], meanings: ["/ɪnˈevɪtəbl/ 不可避免的","/ˌʌnəˈvɔɪdəbl/ 不可避免的"], analysis: "拼写差异在前缀in-/un-和词根；阅读高频，二者同义但拼写不同，常作为干扰项同时出现。" },
+  { id:71, group: ["influence","affluent"], meanings: ["/ˈɪnfluəns/ 影响；势力","/ˈæfluənt/ 富裕的；丰富的"], analysis: "拼写差异在第二音节-in/-af；阅读高频，influence指“影响力”，affluent指“富有的”。" },
+  { id:72, group: ["innovate","renovate"], meanings: ["/ˈɪnəveɪt/ 创新；革新","/ˈrenəveɪt/ 翻新；修复"], analysis: "拼写差异在前缀in-/re-；阅读高频，innovate指“引入新事物”，renovate指“更新旧事物”。" },
+  { id:73, group: ["insist","persist","resist","consist"], meanings: ["/ɪnˈsɪst/ 坚持；坚决要求","/pəˈsɪst/ 坚持；持续存在","/rɪˈzɪst/ 抵抗；抵制","/kənˈsɪst/ 由…组成；在于"], analysis: "拼写差异在前缀in-/per-/re-/con-；完形高频，同为sist（站）词根。" },
+  { id:74, group: ["intelligent","intellectual"], meanings: ["/ɪnˈtelɪdʒənt/ 聪明的；有智力的","/ˌɪntəˈlektʃuəl/ 智力的；知识分子"], analysis: "拼写差异在结尾-ligent/-lectual；阅读高频，intelligent指“聪明”，intellectual指“智力的/学者”。" },
+  { id:75, group: ["interfere","intervene"], meanings: ["/ˌɪntəˈfɪə/ 干涉；妨碍","/ˌɪntəˈviːn/ 干预；介入"], analysis: "拼写差异在第二音节-fe/-ve；阅读高频，interfere含贬义“干预”，intervene中性“介入”。" },
+  { id:76, group: ["interpret","interrupt"], meanings: ["/ɪnˈtɜːprɪt/ 解释；口译","/ˌɪntəˈrʌpt/ 打断；中断"], analysis: "拼写差异在第三音节-pre/-rup；阅读高频，interpret指“翻译/解读”，interrupt指“打断”。" },
+  { id:77, group: ["latitude","altitude","gratitude"], meanings: ["/ˈlætɪtjuːd/ 纬度；自由度","/ˈæltɪtjuːd/ 高度；海拔","/ˈɡrætɪtjuːd/ 感激；感谢"], analysis: "拼写差异在开头la-/al-/gra-；阅读高频，三词以-titude结尾但含义完全不同。" },
+  { id:78, group: ["longitude","attitude"], meanings: ["/ˈlɒndʒɪtjuːd/ 经度","/ˈætɪtjuːd/ 态度；看法"], analysis: "拼写差异在开头lon-/at-；阅读高频，longitude地理术语，attitude心理态度。" },
+  { id:79, group: ["moral","mortal"], meanings: ["/ˈmɒrəl/ 道德的；道德","/ˈmɔːtl/ 终有一死的；致命的"], analysis: "拼写差异在第二音节-ra/-ta；完形高频，moral指“道德”，mortal指“会死的”。" },
+  { id:80, group: ["mutual","neutral"], meanings: ["/ˈmjuːtʃuəl/ 相互的；共同的","/ˈnjuːtrəl/ 中立的；中性的"], analysis: "拼写差异在第二音节-tu/-tr；阅读高频，mutual指“彼此的”，neutral指“不偏袒的”。" },
+  { id:81, group: ["notable","notorious"], meanings: ["/ˈnəʊtəbl/ 显著的；著名的","/nəʊˈtɔːriəs/ 臭名昭著的"], analysis: "拼写差异在结尾-able/-orious；阅读高频，notable褒义“著名的”，notorious贬义“声名狼藉的”。" },
+  { id:82, group: ["occupy","occur"], meanings: ["/ˈɒkjupaɪ/ 占据；占领","/əˈkɜː/ 发生；出现"], analysis: "拼写差异在词长和发音；阅读高频，occupy指“占有空间/时间”，occur指“发生”。" },
+  { id:83, group: ["oppose","propose","compose","expose"], meanings: ["/əˈpəʊz/ 反对；对抗","/prəˈpəʊz/ 提议；求婚","/kəmˈpəʊz/ 组成；创作","/ɪkˈspəʊz/ 暴露；揭露"], analysis: "拼写差异在前缀op-/pro-/com-/ex-；完形高频，同为pose（放置）词根。" },
+  { id:84, group: ["overlook","oversee"], meanings: ["/ˌəʊvəˈlʊk/ 忽视；俯瞰","/ˌəʊvəˈsiː/ 监督；监管"], analysis: "拼写差异在结尾-look/-see；阅读高频，overlook指“没注意到”，oversee指“管理”。" },
+  { id:85, group: ["overtake","overturn","takeover","turnover"], meanings: ["/ˌəʊvəˈteɪk/ 追上；超过","/ˌəʊvəˈtɜːn/ 推翻；倾覆","/ˈteɪkəʊvə/ 接管；收购","/ˈtɜːnəʊvə/ 营业额；流动率"], analysis: "拼写差异在over/take/turn的位置组合；阅读高频，四词均为“失分重灾区”。" },
+  { id:86, group: ["permanent","permeate"], meanings: ["/ˈpɜːmənənt/ 永久的；固定的","/ˈpɜːmieɪt/ 渗透；弥漫"], analysis: "拼写差异在结尾-nent/-eate；阅读高频，permanent指“持久的”，permeate指“扩散到”。" },
+  { id:87, group: ["predict","prejudice"], meanings: ["/prɪˈdɪkt/ 预测；预言","/ˈpredʒudɪs/ 偏见；成见"], analysis: "拼写差异在词长和第三音节；阅读高频，predict指“预言未来”，prejudice指“先入为主的看法”。" },
+  { id:88, group: ["preserve","reserve","conserve","observe"], meanings: ["/prɪˈzɜːv/ 保护；保存；腌制","/rɪˈzɜːv/ 保留；预订；储备","/kənˈsɜːv/ 保存；保护","/əbˈzɜːv/ 观察；遵守"], analysis: "拼写差异在前缀pre-/re-/con-/ob-；完形高频，同为serve（保持）词根。" },
+  { id:89, group: ["profound","confound"], meanings: ["/prəˈfaʊnd/ 深刻的；深远的","/kənˈfaʊnd/ 使困惑；混淆"], analysis: "拼写差异在前缀pro-/con-；阅读高频，profound指“深刻”，confound指“使迷惑”。" },
+  { id:90, group: ["prolong","elongate"], meanings: ["/prəˈlɒŋ/ 延长；拉长","/ˈiːlɒŋɡeɪt/ 拉长；伸长"], analysis: "拼写差异在前缀pro-/e-；阅读高频，prolong指“时间延长”，elongate指“物理拉长”。" },
+  { id:91, group: ["prosper","prospect"], meanings: ["/ˈprɒspə/ 繁荣；成功","/ˈprɒspekt/ 前景；展望"], analysis: "拼写差异在结尾-per/-pect；阅读高频，prosper为动词“繁荣”，prospect为名词“前景”。" },
+  { id:92, group: ["pursue","peruse"], meanings: ["/pəˈsjuː/ 追求；追赶","/pəˈruːz/ 细读；审阅"], analysis: "拼写差异在第二音节-su/-ru；阅读高频，pursue指“追逐”，peruse指“仔细阅读”。" },
+  { id:93, group: ["relieve","retrieve"], meanings: ["/rɪˈliːv/ 缓解；解除","/rɪˈtriːv/ 取回；挽回；检索"], analysis: "拼写差异在词长和第三音节；阅读高频，relieve指“减轻痛苦”，retrieve指“找回/恢复”。" },
+  { id:94, group: ["reproduce","reproach"], meanings: ["/ˌriːprəˈdjuːs/ 繁殖；复制","/rɪˈprəʊtʃ/ 责备；批评"], analysis: "拼写差异在结尾-duce/-ach；阅读高频，reproduce指“再生产/复制”，reproach指“指责”。" },
+  { id:95, group: ["respectable","respectful","respective"], meanings: ["/rɪˈspektəbl/ 值得尊敬的；体面的","/rɪˈspektfl/ 表示尊敬的；有礼貌的","/rɪˈspektɪv/ 各自的；分别的"], analysis: "拼写差异在结尾-able/-ful/-ive；完形高频，三词同根但含义完全不同。" },
+  { id:96, group: ["speculate","spectacular"], meanings: ["/ˈspekjuleɪt/ 推测；投机","/spekˈtækjələ/ 壮观的；惊人的"], analysis: "拼写差异在第二音节-cu/-cta；阅读高频，speculate指“猜测”，spectacular指“精彩的”。" },
+  { id:97, group: ["stimulate","simulate"], meanings: ["/ˈstɪmjuleɪt/ 刺激；激励","/ˈsɪmjuleɪt/ 模拟；模仿"], analysis: "拼写差异在开头st-/si-；完形高频，stimulate指“激发”，simulate指“模仿/仿真”。" },
+  { id:98, group: ["superior","superficial"], meanings: ["/suːˈpɪəriə/ 上级的；优越的","/ˌsuːpəˈfɪʃl/ 肤浅的；表面的"], analysis: "拼写差异在词长和结尾-ior/-ficial；阅读高频，superior指“更优的”，superficial指“浅薄的”。" },
+  { id:99, group: ["suspicious","superstitious"], meanings: ["/səˈspɪʃəs/ 怀疑的；可疑的","/ˌsuːpəˈstɪʃəs/ 迷信的"], analysis: "拼写差异在第二音节-spi/-perst；阅读高频，suspicious指“起疑心的”，superstitious指“相信迷信的”。" },
+  { id:100, group: ["virtual","virtue","visual","virus"], meanings: ["/ˈvɜːtʃuəl/ 虚拟的；实质上的","/ˈvɜːtʃuː/ 美德；优点","/ˈvɪʒuəl/ 视觉的；看得见的","/ˈvaɪrəs/ 病毒"], analysis: "拼写差异在结尾-tual/-tue/-sual/-rus；阅读高频，四词形近但含义完全不同。" }
+];
+
+// ============================================================
+// 核心逻辑
+// ============================================================
+let currentIndex = 0;
+let currentMode = 'flip';
+let isFlipped = false;
+let learnedSet = new Set(JSON.parse(localStorage.getItem('learnedSet_v2') || '[]'));
+let favSet = new Set(JSON.parse(localStorage.getItem('favSet_v2') || '[]'));
+let wrongSet = new Set(JSON.parse(localStorage.getItem('wrongSet_v2') || '[]'));
+let gameUnlocked = parseInt(localStorage.getItem('gameUnlocked_v2') || '0');
+let currentFilter = 'all';
+let filteredIndices = [];
+
+const cardEl = document.getElementById('card');
+const wordListEl = document.getElementById('wordList');
+const backContentEl = document.getElementById('backContent');
+const progressText = document.getElementById('progressText');
+const learnedCountEl = document.getElementById('learnedCount');
+const favCountEl = document.getElementById('favCount');
+const wrongCountEl = document.getElementById('wrongCount');
+const gameArea = document.getElementById('gameArea');
+const dropZone = document.getElementById('dropZone');
+const gameUnlockBtn = document.getElementById('gameUnlockBtn');
+const favBtn = document.getElementById('favBtn');
+const showAllBtn = document.getElementById('showAllBtn');
+
+function getCurrentCard() {
+    return CARD_DATA[currentIndex];
+}
+
+function renderCard() {
+    const card = getCurrentCard();
+    wordListEl.innerHTML = card.group.map(w => `<span>${w}</span>`).join('');
+    let html = '';
+    card.group.forEach((w, i) => {
+        html += `<div class="item"><span class="word">${w}</span><span class="phonetic">${card.meanings[i]}</span></div>`;
+    });
+    html += `<div class="analysis"><strong>辨析：</strong>${card.analysis}</div>`;
+    backContentEl.innerHTML = html;
+
+    if (currentMode === 'browse') {
+        cardEl.classList.add('flipped');
+        isFlipped = true;
+    } else {
+        cardEl.classList.remove('flipped');
+        isFlipped = false;
+    }
+    updateProgress();
+    updateStats();
+    checkGameUnlock();
+    updateFavButton();
+}
+
+function updateProgress() {
+    const total = currentFilter === 'all' ? CARD_DATA.length : filteredIndices.length;
+    const idx = currentFilter === 'all' ? currentIndex : filteredIndices.indexOf(currentIndex);
+    progressText.textContent = `${idx + 1} / ${total}`;
+}
+
+function updateStats() {
+    learnedCountEl.textContent = learnedSet.size;
+    favCountEl.textContent = favSet.size;
+    wrongCountEl.textContent = wrongSet.size;
+    localStorage.setItem('learnedSet_v2', JSON.stringify([...learnedSet]));
+    localStorage.setItem('favSet_v2', JSON.stringify([...favSet]));
+    localStorage.setItem('wrongSet_v2', JSON.stringify([...wrongSet]));
+}
+
+function updateFavButton() {
+    if (favSet.has(currentIndex)) {
+        favBtn.textContent = '★';
+        favBtn.style.background = '#222';
+        favBtn.style.color = '#fff';
+        favBtn.style.borderColor = '#222';
+    } else {
+        favBtn.textContent = '☆';
+        favBtn.style.background = 'transparent';
+        favBtn.style.color = '#222';
+        favBtn.style.borderColor = '#ccc';
+    }
+}
+
+function checkGameUnlock() {
+    if (learnedSet.size >= 10) {
+        localStorage.setItem('gameUnlocked_v2', '1');
+        gameUnlocked = 1;
+        gameUnlockBtn.textContent = '游戏';
+        gameUnlockBtn.style.opacity = '1';
+    } else {
+        gameUnlockBtn.textContent = '游戏';
+        gameUnlockBtn.style.opacity = '0.5';
+    }
+}
+
+function getFilteredList() {
+    if (currentFilter === 'learned') return [...learnedSet];
+    if (currentFilter === 'fav') return [...favSet];
+    if (currentFilter === 'wrong') return [...wrongSet];
+    return CARD_DATA.map((_, i) => i);
+}
+
+function applyFilter(filter) {
+    currentFilter = filter;
+    filteredIndices = getFilteredList();
+    if (filteredIndices.length === 0) {
+        alert('当前筛选下没有卡片。');
+        currentFilter = 'all';
+        filteredIndices = CARD_DATA.map((_, i) => i);
+    }
+    currentIndex = filteredIndices[0];
+    renderCard();
+    document.querySelectorAll('.stat-btn').forEach(btn => {
+        btn.classList.remove('active-stat');
+        if (btn.dataset.filter === filter) btn.classList.add('active-stat');
+    });
+    if (filter === 'all') showAllBtn.style.display = 'none';
+    else showAllBtn.style.display = 'inline-block';
+}
+
+function goTo(index) {
+    const list = currentFilter === 'all' ? CARD_DATA.map((_, i) => i) : filteredIndices;
+    let pos = list.indexOf(index);
+    if (pos === -1) {
+        index = list[0] || 0;
+    }
+    if (index < 0) index = list[list.length - 1] || 0;
+    if (index >= CARD_DATA.length) index = 0;
+    currentIndex = index;
+    renderCard();
+}
+
+function nextCard() {
+    const list = currentFilter === 'all' ? CARD_DATA.map((_, i) => i) : filteredIndices;
+    let pos = list.indexOf(currentIndex);
+    if (pos === -1) pos = 0;
+    pos = (pos + 1) % list.length;
+    currentIndex = list[pos];
+    renderCard();
+}
+
+function prevCard() {
+    const list = currentFilter === 'all' ? CARD_DATA.map((_, i) => i) : filteredIndices;
+    let pos = list.indexOf(currentIndex);
+    if (pos === -1) pos = 0;
+    pos = (pos - 1 + list.length) % list.length;
+    currentIndex = list[pos];
+    renderCard();
+}
+
+function toggleFlip() {
+    if (currentMode === 'browse') return;
+    cardEl.classList.toggle('flipped');
+    isFlipped = !isFlipped;
+    if (isFlipped) {
+        learnedSet.add(currentIndex);
+        updateStats();
+        checkGameUnlock();
+    }
+}
+
+function toggleFav() {
+    if (favSet.has(currentIndex)) favSet.delete(currentIndex);
+    else favSet.add(currentIndex);
+    updateStats();
+    updateFavButton();
+}
+
+function markWrong() {
+    wrongSet.add(currentIndex);
+    updateStats();
+    nextCard();
+}
+
+function resetProgress() {
+    if (confirm('确定重置所有学习进度吗？（收藏和错题不受影响）')) {
+        learnedSet.clear();
+        localStorage.setItem('learnedSet_v2', JSON.stringify([]));
+        updateStats();
+        checkGameUnlock();
+    }
+}
+
+// 游戏逻辑
+let gameTokens = [];
+let gameCardIndex = -1;
+
+function startGame() {
+    if (gameUnlocked === 0) {
+        alert('游戏需要先学完10组才能解锁。');
+        return;
+    }
+    let idx = currentIndex;
+    if (!learnedSet.has(idx)) {
+        const learnedArr = [...learnedSet];
+        if (learnedArr.length === 0) { alert('请先学一些卡片再玩游戏！'); return; }
+        idx = learnedArr[Math.floor(Math.random() * learnedArr.length)];
+    }
+    gameCardIndex = idx;
+    const card = CARD_DATA[idx];
+    const tokens = [...card.group];
+    for (let i = tokens.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [tokens[i], tokens[j]] = [tokens[j], tokens[i]];
+    }
+    gameTokens = tokens;
+    renderGame();
+    gameArea.classList.add('active');
+}
+
+function renderGame() {
+    dropZone.innerHTML = '';
+    gameTokens.forEach((token, i) => {
+        const el = document.createElement('div');
+        el.className = 'token';
+        el.textContent = token;
+        el.draggable = true;
+        el.dataset.index = i;
+        el.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', i);
+        });
+        dropZone.appendChild(el);
+    });
+    dropZone.addEventListener('dragover', (e) => e.preventDefault());
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
+        const targetEl = e.target.closest('.token');
+        if (!targetEl) return;
+        const toIdx = parseInt(targetEl.dataset.index);
+        if (fromIdx === toIdx) return;
+        [gameTokens[fromIdx], gameTokens[toIdx]] = [gameTokens[toIdx], gameTokens[fromIdx]];
+        renderGame();
+    });
+    dropZone.querySelectorAll('.token').forEach(el => {
+        el.addEventListener('click', () => {
+            const idx = parseInt(el.dataset.index);
+            if (idx === 0) return;
+            [gameTokens[0], gameTokens[idx]] = [gameTokens[idx], gameTokens[0]];
+            renderGame();
+        });
+    });
+}
+
+function checkGame() {
+    if (gameCardIndex === -1) return;
+    const card = CARD_DATA[gameCardIndex];
+    const correct = card.group;
+    let allCorrect = true;
+    const tokens = dropZone.querySelectorAll('.token');
+    tokens.forEach((el, i) => {
+        el.classList.remove('wrong', 'placed');
+        if (el.textContent === correct[i]) {
+            el.classList.add('placed');
+        } else {
+            el.classList.add('wrong');
+            allCorrect = false;
+        }
+    });
+    if (allCorrect) {
+        alert('完全正确！');
+    } else {
+        alert('顺序不对，红色标记为错误位置。');
+    }
+}
+
+function resetGame() {
+    if (gameCardIndex === -1) return;
+    const card = CARD_DATA[gameCardIndex];
+    const tokens = [...card.group];
+    for (let i = tokens.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [tokens[i], tokens[j]] = [tokens[j], tokens[i]];
+    }
+    gameTokens = tokens;
+    renderGame();
+}
+
+// 事件绑定
+document.getElementById('nextBtn').addEventListener('click', nextCard);
+document.getElementById('prevBtn').addEventListener('click', prevCard);
+document.getElementById('flipBtn').addEventListener('click', toggleFlip);
+document.getElementById('card').addEventListener('click', toggleFlip);
+favBtn.addEventListener('click', toggleFav);
+document.getElementById('wrongBtn').addEventListener('click', markWrong);
+document.getElementById('resetProgressBtn').addEventListener('click', resetProgress);
+gameUnlockBtn.addEventListener('click', startGame);
+document.getElementById('gameReset').addEventListener('click', resetGame);
+document.getElementById('gameCheck').addEventListener('click', checkGame);
+
+document.querySelectorAll('.stat-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const filter = this.dataset.filter;
+        if (filter === 'all') {
+            currentFilter = 'all';
+            filteredIndices = CARD_DATA.map((_, i) => i);
+            currentIndex = filteredIndices[0];
+            renderCard();
+            document.querySelectorAll('.stat-btn').forEach(b => b.classList.remove('active-stat'));
+            showAllBtn.style.display = 'none';
+            return;
+        }
+        applyFilter(filter);
+    });
+});
+
+showAllBtn.addEventListener('click', function() {
+    currentFilter = 'all';
+    filteredIndices = CARD_DATA.map((_, i) => i);
+    currentIndex = filteredIndices[0];
+    renderCard();
+    document.querySelectorAll('.stat-btn').forEach(b => b.classList.remove('active-stat'));
+    showAllBtn.style.display = 'none';
+});
+
+document.querySelectorAll('#modeSwitch button').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('#modeSwitch button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentMode = this.dataset.mode;
+        renderCard();
+    });
+});
+
+document.getElementById('styleToggle').addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') nextCard();
+    if (e.key === 'ArrowLeft') prevCard();
+    if (e.key === ' ') { e.preventDefault(); toggleFlip(); }
+});
+
+filteredIndices = CARD_DATA.map((_, i) => i);
+renderCard();
+</script>
+</body>
+</html>
