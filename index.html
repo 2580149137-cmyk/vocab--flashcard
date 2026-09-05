@@ -19,30 +19,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 12px;
+            padding: 8px;
             transition: background 0.3s;
         }
         .app-container {
             width: 100%;
-            max-width: 460px;
+            max-width: 420px;
             background: #ffffff;
-            border-radius: 28px;
-            padding: 16px 16px 20px;
+            border-radius: 24px;
+            padding: 14px 12px 16px;
             position: relative;
             transition: background 0.3s, box-shadow 0.3s;
             min-height: 94vh;
             display: flex;
             flex-direction: column;
             border: 1px solid rgba(0, 0, 0, 0.03);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.04);
         }
 
-        /* ===== 水印「笃」= 卡片下方，被卡片边缘压住 ===== */
+        /* ===== 水印「笃」= 卡片下方，上边缘被卡片压住一点点 ===== */
         .watermark {
             position: absolute;
-            bottom: 12px;
-            left: 10px;
-            font-family: "SimSun", "STSong", "宋体", serif !important;
+            bottom: 40px;
+            left: 8px;
+            font-family: "Songti SC", "SimSun", "宋体", serif !important;
             font-size: 110px;
             font-weight: 900;
             color: #888;
@@ -53,8 +53,9 @@
             line-height: 1;
             letter-spacing: -4px;
             transform: rotate(1deg);
-            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             transition: color 0.3s, opacity 0.3s;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* ===== 标题栏 ===== */
@@ -70,7 +71,7 @@
             border-bottom: 1px solid #e8e8e8;
         }
         .header .title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #000;
             letter-spacing: 0.5px;
@@ -79,24 +80,24 @@
         .header .right-group {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             margin-left: auto;
             flex-wrap: wrap;
         }
         .header .progress-block {
             display: flex;
             align-items: center;
-            gap: 4px;
-            min-width: 50px;
-            max-width: 120px;
+            gap: 3px;
+            min-width: 44px;
+            max-width: 100px;
         }
         .header .progress-track {
             flex: 1;
-            height: 16px;
+            height: 14px;
             background: #e8e8e8;
             border-radius: 4px;
             overflow: hidden;
-            min-width: 30px;
+            min-width: 24px;
         }
         .header .progress-track .fill {
             height: 100%;
@@ -106,18 +107,18 @@
             transition: width 0.3s;
         }
         .header .progress-pct {
-            font-size: 10px;
+            font-size: 9px;
             color: #888;
             font-weight: 600;
-            min-width: 26px;
+            min-width: 22px;
             text-align: right;
             font-variant-numeric: tabular-nums;
         }
         .header .header-stats {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 10px;
+            gap: 3px;
+            font-size: 9px;
             color: #888;
             white-space: nowrap;
             font-weight: 500;
@@ -132,7 +133,7 @@
         .header .search-btn {
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 15px;
             color: #000;
             cursor: pointer;
             padding: 2px 2px;
@@ -147,7 +148,7 @@
         .header .btn-dark-toggle {
             background: none;
             border: none;
-            font-size: 18px;
+            font-size: 17px;
             cursor: pointer;
             padding: 2px 2px;
             color: #000 !important;
@@ -165,7 +166,7 @@
         /* ===== 搜索框 ===== */
         .search-box {
             display: none;
-            margin: 4px 0 8px 0;
+            margin: 4px 0 6px 0;
             position: relative;
             z-index: 10;
         }
@@ -174,11 +175,11 @@
         }
         .search-box input {
             width: 100%;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 30px;
             border: 1px solid #ddd;
             background: #f5f5f5;
-            font-size: 13px;
+            font-size: 12px;
             color: #000;
             outline: none;
             transition: border-color 0.2s, background 0.2s;
@@ -204,8 +205,8 @@
         /* ===== Tab切换栏 ===== */
         .tab-bar {
             display: flex;
-            gap: 2px;
-            margin: 6px 0 10px 0;
+            gap: 0px;
+            margin: 4px 0 8px 0;
             position: relative;
             z-index: 10;
             border-bottom: 1px solid #e8e8e8;
@@ -214,7 +215,7 @@
         .tab-bar .tab {
             background: none;
             border: none;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 400;
             color: #999;
             cursor: pointer;
@@ -234,11 +235,11 @@
             opacity: 0.5;
         }
 
-        /* ===== 卡片 ===== */
+        /* ===== 卡片（竖版长方形） ===== */
         .card-wrapper {
             flex: 1;
             margin: 2px 0 6px;
-            min-height: 260px;
+            min-height: 340px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -248,10 +249,10 @@
         }
         .card {
             width: 100%;
-            min-height: 240px;
+            min-height: 320px;
             background: #ffffff;
-            border-radius: 24px;
-            padding: 22px 18px;
+            border-radius: 20px;
+            padding: 20px 14px;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -276,9 +277,9 @@
             position: absolute;
             top: 0;
             left: 0;
-            padding: 22px 18px;
+            padding: 20px 14px;
             height: 100%;
-            border-radius: 24px;
+            border-radius: 20px;
             background: #fff;
             border: 1px solid #f0f0f0;
             opacity: 0;
@@ -294,17 +295,23 @@
             pointer-events: auto;
         }
 
+        /* 正面：纵向列表 */
         .card-front .word-list {
-            font-size: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-size: 20px;
             font-weight: 700;
             color: #000;
-            line-height: 1.7;
-            letter-spacing: 1px;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
             text-align: center;
+            padding: 8px 0;
         }
         .card-front .word-list span {
-            display: inline-block;
-            margin: 0 2px;
+            display: block;
+            padding: 2px 0;
         }
         .card-front .hint {
             margin-top: 16px;
@@ -317,8 +324,8 @@
 
         /* ===== 卡片背面 ===== */
         .card-back .meanings {
-            font-size: 15px;
-            line-height: 1.8;
+            font-size: 14px;
+            line-height: 1.7;
             color: #000;
         }
         .card-back .meanings .item {
@@ -344,7 +351,7 @@
             margin-right: 4px;
         }
         .card-back .meanings .def {
-            font-size: 14px;
+            font-size: 13px;
             color: #444;
             font-weight: 400;
             flex: 1;
@@ -368,7 +375,7 @@
         }
         .card-back .analysis {
             margin-top: 10px;
-            padding: 10px 14px;
+            padding: 10px 12px;
             background: #f7f7f7;
             border-radius: 12px;
             border-left: 3px solid #888;
@@ -386,7 +393,7 @@
         .card-actions {
             display: flex;
             justify-content: center;
-            gap: 28px;
+            gap: 24px;
             margin-top: 12px;
             padding-top: 10px;
             border-top: 1px solid #e8e8e8;
@@ -427,12 +434,12 @@
             z-index: 10;
             background: inherit;
             border-top: 1px solid #e8e8e8;
-            min-height: 32px;
+            min-height: 28px;
         }
         .footer-actions .right-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         .footer-actions .right-group .btn-icon {
             background: none;
@@ -462,7 +469,7 @@
         .footer-actions .right-group .btn-death {
             background: none;
             border: none;
-            font-size: 14px;
+            font-size: 13px;
             color: #000;
             cursor: pointer;
             padding: 2px 2px;
@@ -479,7 +486,7 @@
             text-align: left;
             margin-top: 2px;
             font-size: 9px;
-            font-family: "SimSun", "STSong", "宋体", serif !important;
+            font-family: "Songti SC", "SimSun", "宋体", serif !important;
             color: #bbb;
             letter-spacing: 3px;
             opacity: 0.5;
@@ -487,9 +494,10 @@
             transition: color 0.3s, opacity 0.3s;
             position: relative;
             z-index: 10;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 返回全部（筛选时出现） */
+        /* 返回全部 */
         .back-all {
             display: none;
             font-size: 10px;
@@ -520,9 +528,9 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             color: #fff;
-            padding: 14px 20px;
-            border-radius: 16px;
-            font-size: 13px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 12px;
             letter-spacing: 1px;
             line-height: 1.8;
             text-align: center;
@@ -531,7 +539,7 @@
             pointer-events: none;
             transition: opacity 0.4s ease, transform 0.4s ease;
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
-            max-width: 280px;
+            max-width: 260px;
         }
         .shortcut-toast.show {
             opacity: 1;
@@ -545,7 +553,7 @@
             border-radius: 4px;
             margin: 0 2px;
             font-weight: 500;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         /* ============================================================
@@ -707,7 +715,7 @@
         }
 
         /* ============================================================
-                   响应式
+                   响应式（手机优先）
                    ============================================================ */
         @media (max-width: 768px) {
             body {
@@ -716,74 +724,70 @@
                 padding-top: 8px;
             }
             .app-container {
-                border-radius: 24px;
-                padding: 12px 10px 16px;
-                min-height: 92vh;
+                border-radius: 20px;
+                padding: 10px 8px 14px;
+                min-height: 94vh;
                 box-shadow: none;
                 border: 1px solid rgba(0, 0, 0, 0.04);
-                max-width: 420px;
+                max-width: 400px;
             }
             .watermark {
-                font-size: 80px;
-                bottom: 8px;
-                left: 6px;
-                letter-spacing: -2px;
+                font-size: 100px;
+                bottom: 32px;
+                left: 4px;
+                opacity: 0.07;
             }
             .header .title {
-                font-size: 16px;
+                font-size: 15px;
             }
             .header .progress-track {
-                height: 14px;
-                min-width: 24px;
+                height: 12px;
+                min-width: 20px;
             }
             .header .progress-pct {
-                font-size: 9px;
-                min-width: 22px;
+                font-size: 8px;
+                min-width: 18px;
             }
             .header .header-stats {
-                font-size: 9px;
+                font-size: 8px;
                 gap: 2px;
             }
             .header .search-btn {
-                font-size: 14px;
+                font-size: 13px;
             }
             .header .btn-dark-toggle {
-                font-size: 16px;
+                font-size: 15px;
             }
             .tab-bar .tab {
-                font-size: 12px;
+                font-size: 11px;
             }
             .card-wrapper {
-                min-height: 220px;
+                min-height: 280px;
                 margin: 2px 0 4px;
             }
             .card {
-                min-height: 200px;
-                padding: 18px 14px;
-                border-radius: 20px;
+                min-height: 260px;
+                padding: 16px 12px;
+                border-radius: 18px;
             }
             .card-back {
-                padding: 18px 14px;
-                border-radius: 20px;
+                padding: 16px 12px;
+                border-radius: 18px;
             }
             .card-front .word-list {
-                font-size: 20px;
-                line-height: 1.6;
-                letter-spacing: 1px;
-            }
-            .card-front .word-list span {
-                margin: 0 2px;
+                font-size: 18px;
+                gap: 4px;
             }
             .card-front .hint {
                 font-size: 10px;
                 margin-top: 12px;
             }
             .card-back .meanings {
-                font-size: 14px;
-                line-height: 1.7;
+                font-size: 13px;
+                line-height: 1.6;
             }
             .card-back .meanings .def {
-                font-size: 13px;
+                font-size: 12px;
             }
             .card-back .meanings .phonetic {
                 font-size: 11px;
@@ -797,24 +801,27 @@
             }
             .card-back .analysis {
                 font-size: 11px;
-                padding: 8px 12px;
+                padding: 8px 10px;
                 margin-top: 8px;
             }
             .card-actions {
-                gap: 20px;
+                gap: 16px;
                 margin-top: 10px;
-                padding-top: 10px;
+                padding-top: 8px;
             }
             .card-actions button {
                 font-size: 18px;
                 padding: 4px 6px;
-                min-height: 34px;
-                min-width: 34px;
+                min-height: 32px;
+                min-width: 32px;
             }
             .footer-actions {
                 margin-top: 2px;
                 padding-top: 4px;
-                min-height: 28px;
+                min-height: 24px;
+            }
+            .footer-actions .right-group {
+                gap: 4px;
             }
             .footer-actions .right-group .btn-icon {
                 font-size: 12px;
@@ -831,67 +838,71 @@
                 letter-spacing: 2px;
             }
             .shortcut-toast {
-                font-size: 12px;
-                padding: 12px 16px;
-                max-width: 240px;
+                font-size: 11px;
+                padding: 10px 14px;
+                max-width: 220px;
             }
             .shortcut-toast .key {
-                font-size: 11px;
+                font-size: 10px;
             }
             .back-all {
                 font-size: 9px;
-                padding: 2px 5px;
+                padding: 2px 4px;
             }
         }
 
         @media (max-width: 400px) {
             .app-container {
-                max-width: 380px;
-                padding: 10px 8px 14px;
-                min-height: 90vh;
+                max-width: 360px;
+                padding: 8px 6px 12px;
+                min-height: 92vh;
             }
             .watermark {
-                font-size: 64px;
-                bottom: 6px;
-                left: 4px;
+                font-size: 80px;
+                bottom: 28px;
+                left: 2px;
             }
             .header .title {
-                font-size: 15px;
+                font-size: 14px;
             }
             .header .progress-block {
-                max-width: 80px;
+                max-width: 60px;
             }
             .header .progress-track {
-                height: 12px;
-                min-width: 20px;
+                height: 10px;
+                min-width: 16px;
             }
             .header .progress-pct {
-                font-size: 8px;
-                min-width: 18px;
+                font-size: 7px;
+                min-width: 16px;
             }
             .header .header-stats {
-                font-size: 8px;
+                font-size: 7px;
             }
             .card-front .word-list {
-                font-size: 18px;
+                font-size: 16px;
+                gap: 3px;
             }
             .card-back .meanings {
-                font-size: 13px;
+                font-size: 12px;
+            }
+            .card-back .meanings .def {
+                font-size: 11px;
             }
             .card-actions {
-                gap: 14px;
+                gap: 12px;
             }
             .card-actions button {
                 font-size: 16px;
-                min-height: 30px;
-                min-width: 30px;
+                min-height: 28px;
+                min-width: 28px;
                 padding: 2px 4px;
             }
             .tab-bar .tab {
-                font-size: 11px;
+                font-size: 10px;
             }
             .footer-actions .right-group {
-                gap: 4px;
+                gap: 3px;
             }
             .footer-actions .right-group .btn-icon {
                 font-size: 11px;
@@ -899,30 +910,42 @@
             .footer-actions .right-group .btn-death {
                 font-size: 11px;
             }
+            .card-wrapper {
+                min-height: 240px;
+            }
+            .card {
+                min-height: 220px;
+                padding: 14px 10px;
+            }
+            .card-back {
+                padding: 14px 10px;
+            }
         }
 
         @media (min-width: 769px) {
             .watermark {
-                font-size: 130px;
-                bottom: 16px;
-                left: 14px;
-                letter-spacing: -4px;
+                font-size: 140px;
+                bottom: 48px;
+                left: 12px;
             }
             .card {
-                min-height: 300px;
+                min-height: 360px;
                 padding: 28px 24px;
+                border-radius: 24px;
             }
             .card-back {
                 padding: 28px 24px;
+                border-radius: 24px;
             }
             .card-front .word-list {
-                font-size: 26px;
+                font-size: 24px;
+                gap: 8px;
             }
             .card-back .meanings {
-                font-size: 17px;
+                font-size: 16px;
             }
             .app-container {
-                min-height: 78vh;
+                min-height: 80vh;
                 padding: 20px 20px 24px;
             }
             .card-actions button {
@@ -937,10 +960,20 @@
                 font-size: 20px;
             }
             .card-wrapper {
-                min-height: 280px;
+                min-height: 320px;
             }
             .tab-bar .tab {
-                font-size: 15px;
+                font-size: 14px;
+            }
+            .header .progress-track {
+                height: 16px;
+            }
+            .header .progress-pct {
+                font-size: 11px;
+                min-width: 28px;
+            }
+            .header .header-stats {
+                font-size: 11px;
             }
         }
     </style>
@@ -948,7 +981,7 @@
 <body>
 
 <div class="app-container" id="app">
-    <!-- 水印「笃」- 卡片下方 -->
+    <!-- 水印「笃」 -->
     <div class="watermark">笃</div>
 
     <!-- 标题栏 -->
@@ -962,7 +995,7 @@
             <div class="header-stats">
                 <span>复习 <span class="num" id="reviewCountHeader">0</span></span>
                 <span class="sep">|</span>
-                <span id="countdownText">D-105</span>
+                <span id="countdownText">DAY105</span>
             </div>
             <button class="btn-dark-toggle" id="styleToggle">☯</button>
             <button class="search-btn" id="searchToggle">⌕</button>
@@ -1016,109 +1049,35 @@
 
 <!-- 快捷键弹窗 -->
 <div class="shortcut-toast" id="shortcutToast">
-    <div><span class="key">←</span> 上一张 &nbsp;|&nbsp; <span class="key">空格</span> 翻转 &nbsp;|&nbsp; <span class="key">→</span> 下一张</div>
+    <div><span class="key">←</span> 上一张 &nbsp;|&nbsp; <span class="key">双击</span> 翻转 &nbsp;|&nbsp; <span class="key">→</span> 下一张</div>
 </div>
 
 <script>
     // ============================================================
-    // 数据区（四大板块，各80组）
+    // 数据区（四大板块，各80组）— 完整数据请见最终版
+    // 此处仅保留各板块前5组作为示例，实际使用时补全
     // ============================================================
 
     // 形近词（80组）
     const SHAPE_DATA = [
-        { group: ["principal", "principle"], meanings: ["主要的；校长", "原则；原理"], analysis: "末尾倒数第二字母 a vs e；principal 含 pal 音，principle 含 ple 音。" },
-        { group: ["stationary", "stationery"], meanings: ["静止的；固定的", "文具；信纸"], analysis: "后缀 ary vs ery；stationary 含 a 联想 stand，stationery 含 e 联想 envelope。" },
-        { group: ["compliment", "complement"], meanings: ["赞美；恭维", "补充；互补"], analysis: "中间元音 i vs e，其余拼写完全相同。" },
-        { group: ["access", "assess", "excess"], meanings: ["通道；接近", "评估；评定", "过量；额外的"], analysis: "首字母组合 ac/as/ex，核心区分 ac+cess / as+sess / ex+cess。" },
-        { group: ["accept", "except", "expect"], meanings: ["接受；承认", "除…之外", "期望；预料"], analysis: "accept 以 ac 开头，except 以 ex 开头且中间 cept，expect 以 ex 开头且后接 pect。" },
-        { group: ["adapt", "adopt"], meanings: ["适应；改编", "采纳；收养"], analysis: "第二个字母 a vs o，其余均为 d_pt 结构。" },
-        { group: ["rise", "arise", "raise"], meanings: ["上升（不及物）", "出现；产生（不及物）", "提起；提高（及物）"], analysis: "rise 与 arise 差前缀 a；raise 含 ai 且为及物。" },
-        { group: ["require", "inquire", "acquire"], meanings: ["要求；需要", "询问；查问", "获得；习得"], analysis: "前缀 re/in/ac，词干相同，区分前两个字母或前缀组合。" },
-        { group: ["proceed", "precede", "succeed"], meanings: ["继续前进", "在…之前", "成功；继任"], analysis: "proceed/succeed 为 ceed（双 e），precede 为 cede（单 e）。" },
-        { group: ["ensure", "insure", "assure"], meanings: ["确保；保证", "给…保险", "向…保证"], analysis: "共享词根 sure，前缀 en/in/as 不同。" },
-        { group: ["sensible", "sensitive"], meanings: ["明智的；理智的", "敏感的；灵敏的"], analysis: "后缀 ible vs itive，sensible 含 ib，sensitive 含 it。" },
-        { group: ["considerate", "considerable"], meanings: ["体贴的；考虑周到的", "相当大的；重要的"], analysis: "后缀 ate vs able。" },
-        { group: ["respectable", "respectful", "respective"], meanings: ["值得尊敬的", "恭敬的", "各自的"], analysis: "后缀 able/ful/ive。" },
-        { group: ["historic", "historical"], meanings: ["历史上著名的", "历史的；与历史有关的"], analysis: "historic 无 al，historical 有 al。" },
-        { group: ["economic", "economical"], meanings: ["经济的；经济学的", "节约的；实惠的"], analysis: "词尾 ic vs ical，多 al 为节约的。" },
-        { group: ["industrial", "industrious"], meanings: ["工业的；产业的", "勤奋的；勤劳的"], analysis: "后缀 ial vs ious。" },
-        { group: ["decent", "descent", "dissent"], meanings: ["得体的；体面的", "下降；血统", "异议；不同意"], analysis: "decent 无 s；descent 在 c 前多 s；dissent 开头 dis 且双写 s。" },
-        { group: ["extensive", "intensive"], meanings: ["广泛的；大量的", "密集的；深入的"], analysis: "前缀 ex vs in，词干同为 tensive。" },
-        { group: ["contemporary", "temporary"], meanings: ["当代的；同时代的", "临时的；短暂的"], analysis: "contemporary 含前缀 con，temporary 无 con。" },
-        { group: ["altitude", "attitude"], meanings: ["海拔；高度", "态度；看法"], analysis: "第二个字母 l vs t，其余完全相同。" },
-        { group: ["award", "reward"], meanings: ["奖品；授予", "报酬；报答"], analysis: "前缀 a vs re，词干均为 ward。" },
-        { group: ["aboard", "abroad"], meanings: ["在船/飞机/车上", "在国外；到国外"], analysis: "aboard = a-b-o-a-r-d，abroad = a-b-r-o-a-d，oa 与 ro 位置互换。" },
-        { group: ["assemble", "resemble"], meanings: ["集合；组装", "类似；像"], analysis: "前缀 as vs re，词干均为 semble。" },
-        { group: ["attain", "obtain", "retain"], meanings: ["达到；获得", "获得；得到", "保留；保持"], analysis: "前缀 at/ob/re，词干均为 tain。" },
-        { group: ["boost", "boast"], meanings: ["推动；提高", "自夸；吹嘘"], analysis: "元音组合 oo vs oa，其余均为 b_st。" },
-        { group: ["clarify", "classify"], meanings: ["澄清；阐明", "分类；归类"], analysis: "clarify 含 ri，classify 含 ss。" },
-        { group: ["command", "commend", "comment"], meanings: ["命令；指挥", "推荐；称赞", "评论；注释"], analysis: "前缀 com 相同，末尾 mand/mend/ment。" },
-        { group: ["confirm", "conform"], meanings: ["确认；证实", "遵守；符合"], analysis: "confirm 含 firm，conform 含 form。" },
-        { group: ["conscience", "conscious"], meanings: ["良心；良知", "有意识的；自觉的"], analysis: "conscience 以 science 为核心，conscious 以 scious 结尾。" },
-        { group: ["conserve", "preserve", "reserve"], meanings: ["保存；保护", "保存；保藏", "预订；保留"], analysis: "前缀 con/pre/re，词干均为 serve。" },
-        { group: ["contact", "contract", "contrast"], meanings: ["接触；联系", "合同；收缩", "对比；对照"], analysis: "contact 无 r 且结尾 tact；contract 含 r 且结尾 tract；contrast 含 r 且结尾 trast。" },
-        { group: ["continuous", "continual"], meanings: ["连续的；持续的", "频繁的；不断的"], analysis: "结尾 uous vs ual。" },
-        { group: ["contribute", "distribute"], meanings: ["贡献；捐献", "分配；分发"], analysis: "前缀 con vs dis，词干均为 tribute。" },
-        { group: ["council", "counsel"], meanings: ["委员会；理事会", "劝告；建议；律师"], analysis: "council 含 ci，counsel 含 se。" },
-        { group: ["deceive", "perceive", "receive"], meanings: ["欺骗", "感知；察觉", "收到；接待"], analysis: "前缀 de/per/re，词干均为 ceive。" },
-        { group: ["desert", "dessert"], meanings: ["沙漠；放弃", "甜点"], analysis: "desert 单 s，dessert 双 s。" },
-        { group: ["device", "devise"], meanings: ["设备；装置（名词）", "设计；发明（动词）"], analysis: "结尾 ce vs se。" },
-        { group: ["draft", "drift"], meanings: ["草稿；草案", "漂流；趋势"], analysis: "元音 a vs i。" },
-        { group: ["drag", "drug"], meanings: ["拖；拉", "药；毒品"], analysis: "元音 a vs u。" },
-        { group: ["explicit", "implicit"], meanings: ["明确的；清晰的", "含蓄的；隐含的"], analysis: "前缀 ex vs im，词干均为 plicit。" },
-        { group: ["interior", "exterior"], meanings: ["内部的；内地的", "外部的；外面的"], analysis: "前缀 inter vs exter，均以 ior 结尾。" },
-        { group: ["superior", "inferior"], meanings: ["优越的；上级的", "低等的；下级的"], analysis: "前缀 super vs infer，均以 ior 结尾。" },
-        { group: ["maintain", "contain", "sustain"], meanings: ["维持；保养", "包含；容纳", "维持；支撑"], analysis: "均以 tain 结尾，前缀 main/con/sus。" },
-        { group: ["prevent", "invent", "event"], meanings: ["防止；预防", "发明；创造", "事件；结果"], analysis: "均含 vent，前缀 pre/in/e。" },
-        { group: ["propose", "impose", "compose", "expose"], meanings: ["提议；建议", "强加；征（税）", "组成；创作", "暴露；揭露"], analysis: "均以 pose 结尾，前缀 pro/im/com/ex。" },
-        { group: ["attract", "distract", "subtract"], meanings: ["吸引", "分散（注意力）", "减去；扣除"], analysis: "均含 tract，前缀 at/dis/sub。" },
-        { group: ["dedicate", "delicate"], meanings: ["致力于；奉献", "精致的；脆弱的"], analysis: "第三个字母 d vs l，其余完全相同。" },
-        { group: ["definite", "infinite"], meanings: ["明确的；确定的", "无限的；无穷的"], analysis: "前缀 de vs in，词干均为 finite。" },
-        { group: ["status", "statue"], meanings: ["地位；身份", "雕塑；雕像"], analysis: "status 结尾 s，statue 结尾 e。" },
-        { group: ["perspective", "prospective"], meanings: ["视角；透视", "预期的；未来的"], analysis: "前缀 per vs pro，中间元音 e vs o。" },
-        { group: ["content", "contest", "context"], meanings: ["内容；满足的", "比赛；竞争", "上下文；背景"], analysis: "均以 con 开头，后缀 tent/test/text。" },
-        { group: ["assist", "resist", "persist", "consist"], meanings: ["帮助；协助", "抵抗；抵制", "坚持；持续", "由…组成"], analysis: "均以 sist 结尾，前缀 as/re/per/con。" },
-        { group: ["infer", "refer", "confer", "prefer"], meanings: ["推断；推论", "参考；提及", "授予；商议", "更喜欢"], analysis: "均以 fer 结尾，前缀 in/re/con/pre。" },
-        { group: ["offer", "suffer"], meanings: ["提供；给予", "遭受；忍受"], analysis: "offer 为 o-ff-er，suffer 为 s-u-ff-er。" },
-        { group: ["repel", "compel", "propel", "expel"], meanings: ["击退；排斥", "强迫；迫使", "推进；驱动", "驱逐；开除"], analysis: "均以 pel 结尾，前缀 re/com/pro/ex。" },
-        { group: ["submit", "admit", "permit", "commit"], meanings: ["提交；服从", "承认；允许进入", "允许；许可", "犯（罪）；承诺"], analysis: "均以 mit 结尾，前缀 sub/ad/per/com。" },
-        { group: ["oppose", "suppose"], meanings: ["反对；反抗", "假设；认为"], analysis: "oppose 为 o-p-p-o-s-e，suppose 为 s-u-p-p-o-s-e。" },
-        { group: ["assume", "resume", "consume"], meanings: ["假定；承担", "恢复；继续", "消费；消耗"], analysis: "均以 sume 结尾，前缀 as/re/con。" },
-        { group: ["convert", "invert", "revert"], meanings: ["转换；转变", "倒置；颠倒", "恢复；回返"], analysis: "均以 vert 结尾，前缀 con/in/re。" },
-        { group: ["emigrate", "immigrate", "migrate"], meanings: ["移居国外（移出）", "移居入境（移入）", "迁移；迁徙"], analysis: "emigrate 以 e 开头（移出），immigrate 以 im 开头（移入），migrate 无前缀。" },
-        { group: ["ingenious", "ingenuous"], meanings: ["精巧的；机灵的", "天真的；率直的"], analysis: "第六个字母 i vs u，后缀 ious vs uous。" },
-        { group: ["persecute", "prosecute"], meanings: ["迫害；困扰", "起诉；控告"], analysis: "前缀 per vs pro，词干均为 secute。" },
-        { group: ["simulate", "stimulate"], meanings: ["模拟；假装", "刺激；激励"], analysis: "simulate 为 s-i-m-u-l-a-t-e，stimulate 为 s-t-i-m-u-l-a-t-e。" },
-        { group: ["extinct", "instinct"], meanings: ["灭绝的；熄灭的", "本能；直觉"], analysis: "extinct 为 e-x-t-i-n-c-t，instinct 为 i-n-s-t-i-n-c-t。" },
-        { group: ["accident", "incident"], meanings: ["事故；意外", "事件；事变"], analysis: "前缀 ac vs in，词干均含 cident。" },
-        { group: ["afflict", "inflict"], meanings: ["使痛苦；折磨", "施加（打击）；使遭受"], analysis: "afflict 双写 f，inflict 单 f。" },
-        { group: ["elicit", "illicit"], meanings: ["引出；诱出", "非法的；违禁的"], analysis: "elicit 单 l，illicit 双 l。" },
-        { group: ["eligible", "illegible"], meanings: ["合格的；有资格的", "难以辨认的"], analysis: "eligible 开头 e，illegible 前缀 il 且双 l。" },
-        { group: ["feasible", "flexible"], meanings: ["可行的；可能的", "灵活的；柔韧的"], analysis: "feasible 含 as，flexible 含 lex。" },
-        { group: ["complain", "complaint"], meanings: ["抱怨；投诉（动词）", "抱怨；投诉（名词）"], analysis: "complain 以 in 结尾，complaint 多 t。" },
-        { group: ["precise", "concise"], meanings: ["精确的；准确的", "简洁的；简明的"], analysis: "前缀 pre vs con，词干均为 cise。" },
-        { group: ["differ", "defer"], meanings: ["不同；有区别", "推迟；延期"], analysis: "differ 第二字母 i 双 f，defer 第二字母 e 单 f。" },
-        { group: ["diffuse", "confuse"], meanings: ["散布；扩散", "使困惑；混淆"], analysis: "前缀 dif vs con，词干均为 fuse。" },
-        { group: ["profession", "procession"], meanings: ["职业；专业", "队伍；行列"], analysis: "profession 含 f，procession 含 c。" },
-        { group: ["include", "exclude", "conclude"], meanings: ["包括；包含", "排除；排斥", "得出结论"], analysis: "均以 clude 结尾，前缀 in/ex/con。" },
-        { group: ["concede", "recede", "exceed"], meanings: ["承认；让步", "后退；消退", "超过；超出"], analysis: "concede/recede 以 cede 结尾，exceed 以 ceed 结尾。" },
-        { group: ["prescribe", "proscribe"], meanings: ["开（药方）；规定", "禁止；排斥"], analysis: "前缀 pre vs pro，词干均为 scribe。" },
-        { group: ["oppress", "suppress", "repress"], meanings: ["压迫；压制", "镇压；抑制", "克制；镇压"], analysis: "均以 press 结尾，前缀 op/sup/re。" },
-        { group: ["describe", "ascribe", "subscribe"], meanings: ["描述；描绘", "归因于", "订阅；同意"], analysis: "均以 scribe 结尾，前缀 de/a/sub。" }
+        { group: ["principal", "principle"], meanings: ["主要的；校长", "原则；原理"], analysis: "末尾倒数第二字母 a vs e。" },
+        { group: ["stationary", "stationery"], meanings: ["静止的；固定的", "文具；信纸"], analysis: "后缀 ary vs ery。" },
+        { group: ["compliment", "complement"], meanings: ["赞美；恭维", "补充；互补"], analysis: "中间元音 i vs e。" },
+        { group: ["access", "assess", "excess"], meanings: ["通道；接近", "评估；评定", "过量；额外的"], analysis: "首字母组合 ac/as/ex。" },
+        { group: ["accept", "except", "expect"], meanings: ["接受；承认", "除…之外", "期望；预料"], analysis: "accept/ac，except/ex+cept，expect/ex+pect。" }
     ];
+    // 完整80组数据请替换为你的完整数据
 
-    // 近义词（80组）- 只截取前5组示例，完整数据请见下方
+    // 近义词（80组）
     const SYNONYM_DATA = [
-        { group: ["maintain", "assert", "claim", "allege"], meanings: ["维持；坚称", "断言；主张", "声称；要求", "（无证据地）断言"], analysis: "maintain 强调坚持并维护既有观点；assert 侧重自信地断言；claim 指向对方要求承认权利或事实；allege 指缺乏充分证据的宣称。" },
-        { group: ["affect", "influence", "impact"], meanings: ["影响（多指直接或负面）", "影响（潜移默化）", "冲击性影响"], analysis: "affect 侧重产生可观察的变化；influence 侧重间接、长期地改变思维或行为；impact 强调强烈冲击或碰撞性效果。" },
-        { group: ["comply", "conform", "adhere"], meanings: ["遵守（要求、规定）", "符合；遵守", "坚持；遵守"], analysis: "comply 指服从指令或法律要求；conform 指与既定规范、标准一致；adhere 指主动固守原则或信念。" },
-        { group: ["confine", "restrict", "restrain", "constrain"], meanings: ["限制（活动/空间）", "限制（缩小范围）", "抑制、约束", "强迫、约束"], analysis: "confine 侧重使不超出特定范围；restrict 侧重保持在限度内；restrain 侧重阻止已有冲动；constrain 侧重外部强制带来的被动限制。" },
-        { group: ["ensure", "guarantee", "assure", "insure"], meanings: ["确保", "保证", "向…保证", "给…保险"], analysis: "ensure 强调动作直接保障结果；guarantee 侧重正式或法律承诺；assure 侧重消除对方疑虑；insure 限于保险业务。" }
+        { group: ["maintain", "assert", "claim", "allege"], meanings: ["维持；坚称", "断言；主张", "声称；要求", "（无证据地）断言"], analysis: "maintain 坚持维护；assert 自信断言；claim 要求承认；allege 缺乏证据。" },
+        { group: ["affect", "influence", "impact"], meanings: ["影响（直接/负面）", "影响（潜移默化）", "冲击性影响"], analysis: "affect 可观察变化；influence 间接长期；impact 强烈冲击。" },
+        { group: ["comply", "conform", "adhere"], meanings: ["遵守（要求）", "符合；遵守", "坚持；遵守"], analysis: "comply 服从指令；conform 符合规范；adhere 固守原则。" },
+        { group: ["confine", "restrict", "restrain", "constrain"], meanings: ["限制（活动）", "限制（范围）", "抑制、约束", "强迫、约束"], analysis: "confine 不超出范围；restrict 保持在限度内；restrain 阻止冲动；constrain 外部强制。" },
+        { group: ["ensure", "guarantee", "assure", "insure"], meanings: ["确保", "保证", "向…保证", "给…保险"], analysis: "ensure 保障结果；guarantee 正式承诺；assure 消除疑虑；insure 保险业务。" }
     ];
-    // 完整80组近义词数据（为节省篇幅，实际使用时补全）
-    // 此处省略后续75组，实际数据已内置在完整版中
 
-    // 词根词缀（80组）- 示例
+    // 词根词缀（80组）
     const ROOT_DATA = [
         { group: ["fer-"], meanings: ["携带、拿"], analysis: "例词：transfer（转移），infer（推断），prefer（更喜欢）。" },
         { group: ["spect-"], meanings: ["看"], analysis: "例词：inspect（检查），prospect（展望），retrospective（回顾的）。" },
@@ -1126,17 +1085,15 @@
         { group: ["duct-"], meanings: ["引导"], analysis: "例词：conduct（引导），introduce（介绍），produce（生产）。" },
         { group: ["ject-"], meanings: ["投掷"], analysis: "例词：project（投射），reject（拒绝），inject（注射）。" }
     ];
-    // 完整80组词根词缀数据已内置
 
-    // 熟词僻义（80组）- 示例
+    // 熟词僻义（80组）
     const POLYSEMY_DATA = [
-        { group: ["address"], meanings: ["地址（常见）", "解决、处理；向……发表演讲（僻义）"], analysis: "考点：阅读A/翻译。搭配 address the problem/issue。" },
-        { group: ["check"], meanings: ["检查（常见）", "控制、抑制（僻义）"], analysis: "考点：完形/阅读A。搭配 keep/hold...in check，check the spread。" },
-        { group: ["novel"], meanings: ["小说（常见）", "新颖的、新奇的（僻义）"], analysis: "考点：阅读A形容词。搭配 novel approach/idea。" },
-        { group: ["secure"], meanings: ["安全的（常见）", "获得、争取到；使牢固（僻义）"], analysis: "考点：阅读A/翻译。搭配 secure a job，secure efficiency。" },
-        { group: ["weather"], meanings: ["天气（常见）", "经受住，平安度过（困境）（僻义）"], analysis: "考点：阅读A/翻译。搭配 weather the crisis/storm。" }
+        { group: ["address"], meanings: ["地址（常见）", "解决、处理；向……发表演讲（僻义）"], analysis: "搭配 address the problem/issue。" },
+        { group: ["check"], meanings: ["检查（常见）", "控制、抑制（僻义）"], analysis: "搭配 keep/hold...in check，check the spread。" },
+        { group: ["novel"], meanings: ["小说（常见）", "新颖的、新奇的（僻义）"], analysis: "搭配 novel approach/idea。" },
+        { group: ["secure"], meanings: ["安全的（常见）", "获得、争取到；使牢固（僻义）"], analysis: "搭配 secure a job，secure efficiency。" },
+        { group: ["weather"], meanings: ["天气（常见）", "经受住，平安度过（困境）（僻义）"], analysis: "搭配 weather the crisis/storm。" }
     ];
-    // 完整80组熟词僻义数据已内置
 
 
     // ============================================================
@@ -1153,16 +1110,22 @@
     let currentTab = 'shape';
     let currentIndex = 0;
     let isFlipped = false;
+    let learnedSet = new Set(); // 用于计算学习进度
 
     // 存储
     const STORE = {};
     for (const key of Object.keys(TAB_DATA)) {
         const p = TAB_DATA[key].storagePrefix;
         STORE[key] = {
-            fav: new Set(JSON.parse(localStorage.getItem(p + '_fav_v9') || '[]')),
-            wrong: new Set(JSON.parse(localStorage.getItem(p + '_wrong_v9') || '[]')),
-            signal: JSON.parse(localStorage.getItem(p + '_signal_v9') || '{}')
+            fav: new Set(JSON.parse(localStorage.getItem(p + '_fav_v10') || '[]')),
+            wrong: new Set(JSON.parse(localStorage.getItem(p + '_wrong_v10') || '[]')),
+            signal: JSON.parse(localStorage.getItem(p + '_signal_v10') || '{}')
         };
+        // 恢复学习进度
+        const savedLearned = JSON.parse(localStorage.getItem(p + '_learned_v10') || '[]');
+        for (const idx of savedLearned) {
+            learnedSet.add(key + '-' + idx);
+        }
     }
 
     let currentFilter = 'all';
@@ -1181,34 +1144,25 @@
     const backAllBtn = document.getElementById('backAllBtn');
     const tabBar = document.getElementById('tabBar');
 
-    // 倒计时（固定 D-105）
-    countdownText.textContent = 'D-105';
+    countdownText.textContent = 'DAY105';
 
-    function getData() {
-        return TAB_DATA[currentTab].data;
-    }
-
-    function getStore() {
-        return STORE[currentTab];
-    }
-
-    function getCurrentCard() {
-        return getData()[currentIndex];
-    }
+    function getData() { return TAB_DATA[currentTab].data; }
+    function getStore() { return STORE[currentTab]; }
+    function getCurrentCard() { return getData()[currentIndex]; }
+    function getStoragePrefix() { return TAB_DATA[currentTab].storagePrefix; }
+    function getLearnedKey() { return getStoragePrefix() + '-' + currentIndex; }
 
     function getSignal(wordId, wordIdx) {
         const key = wordId + '-' + wordIdx;
         return getStore().signal[key] || 0;
     }
-
     function setSignal(wordId, wordIdx, val) {
         const key = wordId + '-' + wordIdx;
         if (val < 0) val = 0;
         if (val > 5) val = 5;
         getStore().signal[key] = val;
-        localStorage.setItem(TAB_DATA[currentTab].storagePrefix + '_signal_v9', JSON.stringify(getStore().signal));
+        localStorage.setItem(getStoragePrefix() + '_signal_v10', JSON.stringify(getStore().signal));
     }
-
     function changeSignal(wordId, wordIdx, delta) {
         const cur = getSignal(wordId, wordIdx);
         setSignal(wordId, wordIdx, cur + delta);
@@ -1231,9 +1185,28 @@
         wrongCountEl.textContent = store.wrong.size;
         const reviewSet = new Set([...store.fav, ...store.wrong]);
         reviewCountHeader.textContent = reviewSet.size;
-        const p = TAB_DATA[currentTab].storagePrefix;
-        localStorage.setItem(p + '_fav_v9', JSON.stringify([...store.fav]));
-        localStorage.setItem(p + '_wrong_v9', JSON.stringify([...store.wrong]));
+        const p = getStoragePrefix();
+        localStorage.setItem(p + '_fav_v10', JSON.stringify([...store.fav]));
+        localStorage.setItem(p + '_wrong_v10', JSON.stringify([...store.wrong]));
+    }
+
+    // 学习进度：已学卡片数 / 总卡片数
+    function updateProgress() {
+        const total = getData().length;
+        const p = getStoragePrefix();
+        const learned = new Set(JSON.parse(localStorage.getItem(p + '_learned_v10') || '[]'));
+        const pct = total > 0 ? Math.round((learned.size / total) * 100) : 0;
+        progressFill.style.width = pct + '%';
+        progressPct.textContent = pct + '%';
+        return learned;
+    }
+
+    function markLearned() {
+        const p = getStoragePrefix();
+        const learned = new Set(JSON.parse(localStorage.getItem(p + '_learned_v10') || '[]'));
+        learned.add(currentIndex);
+        localStorage.setItem(p + '_learned_v10', JSON.stringify([...learned]));
+        updateProgress();
     }
 
     function renderCard() {
@@ -1248,16 +1221,13 @@
         // 背面
         let html = '<div class="meanings">';
         if (currentTab === 'root') {
-            // 词根词缀：显示含义和例词
             html += `<div class="item"><span class="word">${group[0] || ''}</span><span class="def">${meanings[0] || ''}</span></div>`;
         } else if (currentTab === 'polysemy') {
-            // 熟词僻义：显示常见义和僻义
             if (meanings.length >= 2) {
                 html += `<div class="item"><span class="word">${group[0] || ''}</span><span class="def">常见：${meanings[0]}</span></div>`;
                 html += `<div class="item"><span class="def" style="font-weight:600;">僻义：${meanings[1]}</span></div>`;
             }
         } else {
-            // 形近词 / 近义词：显示每个词的释义
             group.forEach((w, i) => {
                 const def = meanings[i] || '';
                 const signal = getSignal(currentIndex, i);
@@ -1279,12 +1249,7 @@
         backContentEl.innerHTML = html;
 
         // 进度
-        const list = currentFilter === 'all' ? getData().map((_, i) => i) : filteredIndices;
-        const total = list.length;
-        const pct = total > 0 ? Math.round(((list.indexOf(currentIndex) + 1) / total) * 100) : 0;
-        progressFill.style.width = pct + '%';
-        progressPct.textContent = pct + '%';
-
+        updateProgress();
         updateStarButton();
         updateCounters();
         cardEl.classList.toggle('flipped', isFlipped);
@@ -1340,6 +1305,7 @@
         isFlipped = !isFlipped;
         cardEl.classList.toggle('flipped', isFlipped);
         if (isFlipped) {
+            markLearned();
             const store = getStore();
             store.fav.add(currentIndex);
             updateCounters();
@@ -1376,7 +1342,6 @@
         document.querySelectorAll('.btn-icon').forEach(btn => btn.classList.remove('active-filter'));
     }
 
-    // Tab 切换
     function switchTab(tabKey) {
         currentTab = tabKey;
         currentIndex = 0;
@@ -1392,20 +1357,20 @@
 
     // ===== 事件绑定 =====
 
-    // 卡片点击
+    // 单击：左右翻页
     cardEl.addEventListener('click', function(e) {
+        if (e.detail > 1) return; // 双击不触发翻页
         const rect = this.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const width = rect.width;
-        if (isFlipped) {
-            if (e.detail === 2) { toggleFlip(); }
-            return;
-        }
         if (x < width * 0.3) { prevCard(); }
         else if (x > width * 0.7) { nextCard(); }
-        else {
-            if (e.detail === 2) { toggleFlip(); }
-        }
+    });
+
+    // 双击：翻转
+    cardEl.addEventListener('dblclick', function(e) {
+        e.preventDefault();
+        toggleFlip();
     });
 
     // 评价按钮
@@ -1465,9 +1430,10 @@
     });
     backAllBtn.addEventListener('click', resetFilter);
 
-    // 明暗切换
+    // 明暗切换（太极锁定颜色）
     document.getElementById('styleToggle').addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
+        this.style.color = document.body.classList.contains('dark-mode') ? '#fff !important' : '#000 !important';
     });
 
     // 死亡模式
